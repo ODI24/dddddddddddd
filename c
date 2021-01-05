@@ -10,7 +10,7 @@ local RunService = game:GetService("RunService")
 
 getfenv().lock = "Random" -- Head or Hitbox or Random
 
-fov = 250;
+fov = 350;
 local fovCircle = true;
 local st = tonumber(tick());
 warn("Loading script...")
