@@ -1,0 +1,85 @@
+local uis = game:GetService("UserInputService")
+local sf = 1.1
+local transparency = 0.7
+local bSize = 5
+local player = game.Players.LocalPlayer
+local xrayOn = false
+uis.InputBegan:Connect(function(input)
+	if xrayOn and input.KeyCode == Enum.KeyCode.X then
+		xrayOn = false
+		
+		for i, v in pairs(player.PlayerGui:GetChildren()) do
+			if v:IsA("BillboardGui") and v.Name == "XRay" then
+				v:Destroy()
+			end
+		end
+		
+	elseif xrayOn == false and input.KeyCode == Enum.KeyCode.X then
+		xrayOn = true
+		
+		for i, v in pairs(game.Workspace:GetChildren()) do
+			if v:IsA("Model") and v:FindFirstChild("Humanoid") and v.Name ~= player.Name then
+				local trOn = false
+				local box = Instance.new("BillboardGui", player.PlayerGui)
+				box.Name = "XRay"
+				box.Adornee = v.Head
+				box.AlwaysOnTop = true
+				box.Size = UDim2.new(1, 0, 1, 0)
+				local head = Instance.new("TextLabel", box)
+				head.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+				head.AnchorPoint = Vector2.new(0.5, 0.5)
+				head.Text = "HEAD"
+				head.TextScaled = true
+				head.Font = Enum.Font.Ubuntu
+				head.Size = UDim2.new(1, 0, 1, 0)
+				head.Position = UDim2.new(0.5, 0, 0.5, 0)
+				head.BorderSizePixel = 0
+				head.BorderColor3 = Color3.fromRGB(0, 255, 0)
+				head.ZIndex = 2
+				local body = Instance.new("TextLabel", box)
+				body.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+				body.AnchorPoint = Vector2.new(0.5, 0.5)
+				body.Text = v.Name
+				body.TextScaled = true
+				body.Font = Enum.Font.Ubuntu
+				body.Size = UDim2.new(4, 0, 6, 0)
+				body.Position = UDim2.new(0.5, 0, 2.5, 0)
+				body.BorderSizePixel = 0
+				body.BorderColor3 = Color3.fromRGB(255, 0, 0)
+				body.ZIndex = 1
+				
+				uis.InputBegan:Connect(function(input)
+					if xrayOn and input.KeyCode == Enum.KeyCode.V then
+						local h = head.Size
+						local b = body.Size
+						head.Size = UDim2.new(h.X.Scale*sf, 0, h.Y.Scale*sf, 0)
+						body.Size = UDim2.new(b.X.Scale*sf, 0, b.Y.Scale*sf, 0)
+					elseif xrayOn and input.KeyCode == Enum.KeyCode.C then
+						local h = head.Size
+						local b = body.Size
+						head.Size = UDim2.new(h.X.Scale/sf, 0, h.Y.Scale/sf, 0)
+						body.Size = UDim2.new(b.X.Scale/sf, 0, b.Y.Scale/sf, 0)
+					elseif xrayOn and trOn == false and input.KeyCode == Enum.KeyCode.Z then
+						trOn = true
+						body.BackgroundTransparency = transparency
+						head.BackgroundTransparency = transparency
+						body.BorderSizePixel = bSize
+						head.BorderSizePixel = bSize
+						body.TextColor3 = Color3.fromRGB(255, 255, 255)
+						head.TextColor3 = Color3.fromRGB(255, 255, 255)
+					elseif xrayOn and trOn and input.KeyCode == Enum.KeyCode.Z then
+						trOn = false
+						body.BackgroundTransparency = 0
+						head.BackgroundTransparency = 0
+						body.BorderSizePixel = 0
+						head.BorderSizePixel = 0
+						body.TextColor3 = Color3.fromRGB(0, 0, 0)
+						head.TextColor3 = Color3.fromRGB(0, 0, 0)
+					end
+				end)
+				
+			end
+		end
+		
+	end
+end)
